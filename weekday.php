@@ -43,14 +43,47 @@ if ($m >= 11) {
     $y = substr($year - 1, 2, 2);
 }
 
+/**
+ * @param $day
+ * @param $month
+ * @param $year
+ */
+function printEingabe($day, $month, $year): void
+{
+    echo "Eingabe: {$day}.{$month}.{$year}\n";
+}
+
+/**
+ * @param $year
+ * @param $month
+ * @param $day
+ */
+function printAusgabe($year, $month, $day): void
+{
+    echo strftime("Berechnung PHP: Wochentag='%A'\n", strtotime("$year-$month-$day"));
+}
+
+/**
+ * @param $weekday
+ * @param int $m
+ * @param $y
+ * @param $c
+ */
+function printDebugOutput($weekday, int $m, $y, $c): void
+{
+    global $argc;
+    global $argv;
+    echo "Berechnung Algorithmus: Wochentag='{$weekday}'\n";
+    if ($argc > 4 && ($argv[4] == '-d' || $argv[4] == '--debug')) {
+        echo "DEBUG: m={$m} y={$y} c={$c}\n";
+    }
+}
+
 $weekdayNumber = ($day + intval(2.6 * $m - 0.2) + $y + intval($y / 4) + intval($c / 4) - 2 * $c) % 7;
 
 $weekday = getWeekdayName($weekdayNumber);
 
-echo "Eingabe: {$day}.{$month}.{$year}\n";
-echo strftime("Berechnung PHP: Wochentag='%A'\n", strtotime("$year-$month-$day"));
-echo "Berechnung Algorithmus: Wochentag='{$weekday}'\n";
-if ($argc > 4 && ($argv[4] == '-d' || $argv[4] == '--debug')) {
-    echo "DEBUG: m={$m} y={$y} c={$c}\n";
-}
+printEingabe($day, $month, $year);
+printAusgabe($year, $month, $day);
+printDebugOutput($weekday, $m, $y, $c);
 
